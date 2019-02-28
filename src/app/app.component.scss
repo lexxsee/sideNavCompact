@@ -1,0 +1,16 @@
+
+:host {
+    width: 100%;
+  }
+
+  .container {
+    height: 100%;
+    flex-direction: column;
+    display: flex;
+  }
+  .sidenav-container {
+    flex: 1;
+  }
+  .content {
+    flex-grow: 1;
+  }

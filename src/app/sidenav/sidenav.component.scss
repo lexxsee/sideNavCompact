@@ -1,0 +1,17 @@
+  .drawer-label {
+    font-size: 14px;
+    height: 18px;
+  }
+  mat-toolbar {
+    padding: 16px;
+    &.toolbar-background {
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    &.drawer-toolbar {
+      // flex-direction: column;
+      height: auto !important;
+      // display: block !important;
+    }
+
+  }

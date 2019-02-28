@@ -1,0 +1,13 @@
+<div fxFlexFill fxLayout="column">
+  <mat-toolbar color="primary" style="z-index: 2" class="mat-elevation-z3">
+    <button mat-icon-button (click)="toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span class="cursor-pointer">{{title}}</span>
+    <span fxFlex></span>
+    <button mat-icon-button><mat-icon>apps</mat-icon></button>
+    <button mat-icon-button ><mat-icon>person</mat-icon></button>
+
+  </mat-toolbar>
+  <app-sidenav #appSidenav class="sidenav-container" [routes]="routes"></app-sidenav>
+</div>

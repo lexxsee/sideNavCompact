@@ -1,0 +1,16 @@
+<div fxFlexFill fxLayoutAlign="center center">
+  <div fxFlex="80" class="md-layout-gap" fxLayout="row wrap"  fxLayoutGap="24px" fxLayout.xs="column" >
+    <mat-card *ngFor="let tile of tiles"
+     [style.background]="tile.backgroundColor"
+     [style.color]="tile.color"
+     fxFlex="20" fxFlex.xs = "100"
+     [routerLink]="tile.routerLink"
+     (click)="tile.click()"
+     style="cursor: pointer;">
+      <div fxFlexFill fxLayout="row" fxLayoutAlign="center center">
+        <mat-icon style="width: 48px; height: 48px; font-size: 48px; margin-right: 8px;">{{tile.icon}}</mat-icon>
+        <h3>{{tile.text}}</h3>
+      </div>
+    </mat-card>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+<mat-sidenav-container fxFlex hasBackdrop="false">
+  <mat-sidenav #sidenav
+   [@openCloseSidenav]="compacted"
+   (@openCloseSidenav.done)="onAnimationEvent($event)"
+   (@openCloseSidenav.start)="onAnimationEvent($event)"
+   (mouseenter)="toggleCompact()" (mouseleave)="toggleCompact()"
+   [mode]="!isMobile ? 'side' : 'over'"
+   [opened]="opened"
+   role="navigation">
+    <div fxLayout="column" fxFlexFill>
+      <mat-nav-list fxFlex>
+        <a *ngFor="let item of routes" mat-list-item [routerLink]="[item.route]" [routerLinkActive]="['active']">
+          <mat-icon matListIcon>{{item.icon}}</mat-icon>
+          <span [hidden]="!isVisibleWhenCompact">{{item.title}}</span>
+        </a>
+      </mat-nav-list>
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content>
+      <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
