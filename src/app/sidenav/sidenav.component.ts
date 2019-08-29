@@ -19,31 +19,37 @@ export class SidenavComponent implements OnInit {
   activeMediaQuery = '';
   isMobile: boolean;
 
-  @ViewChild(MatSidenav) sidenav: MatSidenav;
+  @ViewChild(MatSidenav, null) sidenav: MatSidenav;
 
   @Input() routes: any;
 
   @Input() opened: boolean;
 
-  constructor(private sideNavService: SidenavService, mediaObserver: MediaObserver) {
-    this.watcher = mediaObserver.media$.subscribe((change: MediaChange) => {
-      this.activeMediaQuery = change ? `'${change.mqAlias}' = (${change.mediaQuery})` : '';
-      this.isMobile = (change.mqAlias === 'xs') || (change.mqAlias === 'sm');
-      this.opened = !this.isMobile;
-      this.compacted = !this.isMobile;
-    });
+  constructor(private sideNavService: SidenavService, private mediaObserver: MediaObserver) {
+
   }
 
   ngOnInit() {
     this.sideNavService.setSidenav(this.sidenav);
-    this.sideNavService.compacted = this.compacted;
-    this.sideNavService.compactedChange.subscribe((compacted: boolean) => {
-      this.compacted = compacted;
+    this.watcher = this.mediaObserver.media$.subscribe((change: MediaChange) => {
+      this.activeMediaQuery = change ? `'${change.mqAlias}' = (${change.mediaQuery})` : '';
+      this.isMobile = (change.mqAlias === 'xs') || (change.mqAlias === 'sm');
+      this.opened = !this.isMobile;
+      this.compacted = !this.isMobile;
+      this.sideNavService.compacted = this.compacted;
+      this.isVisibleWhenCompact = this.isMobile;
+      this.sideNavService.compactedChange.subscribe((compacted: boolean) => {
+        this.compacted = compacted;
+      });
     });
+    //  this.sideNavService.compacted = this.compacted;
+
   }
 
   public toggleCompact() {
-    this.sideNavService.toggleCompact();
+    if (!this.isMobile) {
+      this.sideNavService.toggleCompact();
+    }
   }
 
   public toggle(): Promise<MatDrawerToggleResult> {
@@ -52,17 +58,20 @@ export class SidenavComponent implements OnInit {
 
   onAnimationEvent(event: AnimationEvent) {
     if (event.phaseName === 'done') {
-      if (event.fromState.toString() === 'true' && event.toState.toString() === 'false') {
-        setTimeout(() => this.isVisibleWhenCompact = true);
-      }
-      if (event.fromState.toString() === 'false' && event.toState.toString() === 'true') {
-        setTimeout(() => this.isVisibleWhenCompact = false);
+      if (event.fromState) {
+        if (event.fromState.toString() === 'true' && event.toState.toString() === 'false') {
+          setTimeout(() => this.isVisibleWhenCompact = true);
+        }
+        if (event.fromState.toString() === 'false' && event.toState.toString() === 'true') {
+          setTimeout(() => this.isVisibleWhenCompact = false);
+        }
       }
     }
 
     if (event.phaseName === 'start' && !this.isMobile) {
       setTimeout(() => this.isVisibleWhenCompact = false);
     }
+
   }
 
 }
